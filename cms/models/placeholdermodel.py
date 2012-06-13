@@ -21,6 +21,12 @@ class Placeholder(models.Model):
     
     def get_add_url(self):
         return self._get_url('add_plugin')
+
+    def get_move_url(self):
+        return self._get_url('move_plugin')
+        
+    def get_remove_url(self):
+        return self._get_url('remove_plugin')
     
     def get_changelist_url(self):
         return self._get_url('changelist')
