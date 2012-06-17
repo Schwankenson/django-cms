@@ -1234,7 +1234,21 @@ class PageAdmin(ModelAdmin):
             # in case of looking to history just render the plugin content
             context = RequestContext(request)
             return render_to_response(plugin_admin.render_template, plugin_admin.render(context, instance, plugin_admin.placeholder))
-
+        
+        if request.POST.get("_cancel", False):
+            # cancel buton was clicked
+            context = {
+                'CMS_MEDIA_URL': settings.CMS_MEDIA_URL,
+                'plugin': cms_plugin,
+                'is_popup': True,
+                'name': unicode(cms_plugin),
+                "type": cms_plugin.get_plugin_name(),
+                'plugin_id': plugin_id,
+                'icon': force_escape(escapejs(cms_plugin.get_instance_icon_src())),
+                'alt': force_escape(escapejs(cms_plugin.get_instance_icon_alt())),
+                'cancel': True,
+            }
+            return render_to_response('admin/cms/page/plugin_forms_ok.html', context, RequestContext(request))
 
         if not instance:
             # instance doesn't exist, call add view
